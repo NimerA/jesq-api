@@ -1,17 +1,29 @@
 {
   "name": "jesq-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "restful api using express, sequelize, passport and ",
+  "main": "server.js",
   "scripts": {
-    "start": "node -r esm src/app.js"
+    "start": "nodemon -r esm src/server.js",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
+    "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
   },
   "author": "Nimer",
   "license": "MIT",
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "jest": "^24.9.0",
+    "supertest": "^4.0.2"
+  },
   "dependencies": {
     "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
+    "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
@@ -19,7 +31,16 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "sequelize": "^5.21.2"
+    "pg": "^7.14.0",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.2",
+    "validator": "^12.1.0"
   },
-  "repository": "https://github.com/NimerA/jesq-api.git"
+  "repository": "https://github.com/NimerA/jesq-api.git",
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  }
 }
