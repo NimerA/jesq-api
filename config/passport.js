@@ -1,13 +1,12 @@
-import passport from 'passport';
 import fs from 'fs';
-import JWTStrategy, { ExtractJWT } from 'passport-jwt';
-
+import passport from 'passport';
+import JWTStrategy from 'passport-jwt/lib/strategy';
+import ExtractJWT from 'passport-jwt/lib/extract_jwt';
 import LocalStartegy from 'passport-local';
-
 import bcrypt from 'bcrypt';
 import { User } from '../models/index';
 
-const privateKey = fs.readFileSync('../../private.key');
+const privateKey = fs.readFileSync('private.key');
 
 passport.use(new LocalStartegy(async (argUsername, argPassword, cb) => {
   try {
@@ -39,3 +38,5 @@ passport.use(new JWTStrategy(
     }
   },
 ));
+
+export default passport;

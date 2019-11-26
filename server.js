@@ -1,7 +1,7 @@
 import express from 'express';
-import passport from 'passport';
 import bp from 'body-parser';
 import cp from 'cookie-parser';
+import passport from './config/passport';
 
 import db from './models/index';
 import {} from 'dotenv/config';

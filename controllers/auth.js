@@ -13,6 +13,7 @@ const privateKey = fs.readFileSync('private.key');
 async function hashPassword(password) {
   const saltRounds = 10;
 
+  console.log(password);
   const hashedPassword = await new Promise((resolve, reject) => {
     bcrypt.hash(password, saltRounds, (err, hash) => {
       if (err) reject(err);
@@ -26,15 +27,18 @@ async function hashPassword(password) {
 async function register(req, res) {
   try {
     const user = await User.findAll({ where: { username: req.body.username } });
-    if (user) {
+    if (user.length !== 0) {
       return res.status(400).json({ error: 'User already exist.' });
     }
+    console.log(req.body);
     const newUser = {
       username: req.body.username,
       email: req.body.email,
-      password: hashPassword(req.body.password),
+      password: await hashPassword(req.body.password),
     };
+    console.log(newUser);
     const createdUser = await User.create(newUser);
+    console.log('lazy breakpoint2');
     return res.status(201).json({ createdUser });
   } catch (error) {
     return res.status(500).send(error.message);

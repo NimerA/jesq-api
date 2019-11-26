@@ -27,6 +27,8 @@ async function create(req, res) {
       username: req.body.username,
       email: req.body.email,
       password: hashPassword(req.body.password),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
     const createdUser = await User.create(newUser);
     return res.status(201).json({ createdUser });
