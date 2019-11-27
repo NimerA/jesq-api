@@ -1,10 +1,10 @@
 import { hashPassword } from './auth';
-import { User } from '../models/index';
+import User from '../models/user';
 
 
-async function getAll(req, res) {
+function getAll(req, res) {
   try {
-    const users = await User.findAll({});
+    const users = User.findAll({});
     return res.status(200).json({ users });
   } catch (error) {
     return res.status(500).send(error.message);
@@ -19,14 +19,14 @@ async function getMe(req, res) {
 
 async function create(req, res) {
   try {
-    const user = await User.findAll({ where: { username: req.body.username } });
+    const user = User.findByUsername(req.body.username);
     if (user) {
       return res.status(400).json({ error: 'User Already Exist' });
     }
     const newUser = {
       username: req.body.username,
       email: req.body.email,
-      password: hashPassword(req.body.password),
+      password: await hashPassword(req.body.password),
       createdAt: new Date(),
       updatedAt: new Date(),
     };
