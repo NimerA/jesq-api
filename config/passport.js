@@ -23,33 +23,19 @@ passport.use(new LocalStartegy(async (username, password, cb) => {
   }
 }));
 
-
 passport.use(new JWTStrategy(
   {
     secretOrKey: privateKey,
+    algorithms: ['RS256'],
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
   },
-  async (jwtPayload, cb) => {
+  (jwtPayload, cb) => {
     try {
-      const user = await User.findById(jwtPayload.id);
-      return cb(null, user);
-    } catch (error) {
-      return cb(error);
+      return cb(null, jwtPayload);
+    } catch (err) {
+      return cb(err, false);
     }
   },
 ));
-
-passport.serializeUser((user, cb) => {
-  cb(null, user.id);
-});
-
-passport.deserializeUser(async (id, cb) => {
-  try {
-    return cb(null, await User.findById(id));
-  } catch (err) {
-    return cb(err);
-  }
-});
-
 
 export default passport;

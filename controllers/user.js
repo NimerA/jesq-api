@@ -2,9 +2,11 @@ import { hashPassword } from './auth';
 import User from '../models/user';
 
 
-function getAll(req, res) {
+async function getAll(_req, res) {
   try {
-    const users = User.findAll({});
+    const users = await User.findAll({
+      attributes: ['id', 'username', 'email'],
+    });
     return res.status(200).json({ users });
   } catch (error) {
     return res.status(500).send(error.message);

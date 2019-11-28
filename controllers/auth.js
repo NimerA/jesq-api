@@ -48,7 +48,7 @@ async function login(req, res) {
       const token = jwt.sign(
         user.toJSON(),
         privateKey,
-        { expiresIn: '1d', algorithm: 'RS256' },
+        { expiresIn: '15m', algorithm: 'RS256' },
       );
       return res.status(200).json({ user, token });
     });
