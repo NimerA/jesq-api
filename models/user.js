@@ -27,6 +27,9 @@ class User extends Model {
 
   // Methods
 
+  // Role Methods
+  // getRole, setRole, createRole
+
   /**
    * gets the user that matches username
    * @param {string} username
@@ -55,7 +58,9 @@ class User extends Model {
 
   // Associations
   static associate(models) {
-    this.myAssociation = this.belongsToMany(models.Role, { through: 'UserRole', as: 'roles', foreignKey: 'userId' });
+    this.myAssociation = this.hasOne(models.User, { as: 'creator', foreignKey: 'createdBy' });
+    this.myAssociation = this.hasOne(models.User, { as: 'modifier', foreignKey: 'modifiedBy' });
+    this.myAssociation = this.belongsTo(models.Role, { as: 'role' });
   }
 }
 

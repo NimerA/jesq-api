@@ -20,7 +20,9 @@ class Role extends Model {
 
   // Associations
   static associate(models) {
-    this.myAssociation = this.belongsToMany(models.User, { through: 'UserRole', as: 'users', foreignKey: 'roleId' });
+    this.myAssociation = this.belongsTo(models.User, { as: 'creator', foreignKey: 'createdBy', constraints: false });
+    this.myAssociation = this.belongsTo(models.User, { as: 'modifier', foreignKey: 'modifiedBy', constraints: false });
+    this.myAssociation = this.hasMany(models.User, { as: 'users', foreignKey: 'roleId' });
     this.myAssociation = this.belongsToMany(models.Permission, { through: 'RolePermission', as: 'permissions', foreignKey: 'roleId' });
   }
 }

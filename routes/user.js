@@ -7,11 +7,23 @@ const router = Router();
 
 // Get all Users
 router.get('/', getAll);
-// Get User with Id
-router.get('/:id', getById);
+
 // Get own profile
 router.get('/profile', getMe);
 // Create a new user
 router.post('/', create);
+
+// get by id
+router.get('/:id', getById);
+// update by id
+// router.put('/:id', updateById);
+// delete by id
+// router.delete('/:id', deleteById);
+
+
+// bulk update
+// bulk delete
+// bulk create
+
 
 export default router;
