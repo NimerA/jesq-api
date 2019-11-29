@@ -1,4 +1,6 @@
 import User from './user';
+import Role from './role';
+import Permission from './permission';
 
 const Sequelize = require('sequelize');
 const envConfigs = require('../config/config');
@@ -10,6 +12,8 @@ const sequelize = new Sequelize(config.url, config);
 
 const models = {
   User: User.init(sequelize, Sequelize),
+  Role: Role.init(sequelize, Sequelize),
+  Permission: Permission.init(sequelize, Sequelize),
 };
 
 // Run `.associate` if it exists,
