@@ -21,6 +21,19 @@ async function hashPassword(password) {
   return hashedPassword;
 }
 
+function googleLogin(req, res) {
+  passport.authenticate('google', {
+    session: false,
+    scope: ['openid', 'profile', 'email'],
+  })(req, res);
+}
+
+function googleCallback(req, res) {
+  passport.authenticate('google', { session: false }, (err, user, info) => {
+
+  })(req, res);
+}
+
 async function register(req, res) {
   try {
     const user = await User.findByUsername(req.body.username);
@@ -45,12 +58,20 @@ async function login(req, res) {
     if (!user) { return res.status(401).send({ error: info }); }
     req.login(user, { session: false }, (error) => {
       if (error) { return res.status(400).send(error.message); }
+      // Token ( 15 Minutes)
       const token = jwt.sign(
         user.toJSON(),
         privateKey,
         { expiresIn: '15m', algorithm: 'RS256' },
       );
-      return res.status(200).json({ user, token });
+
+      // Refresh Token ( 1 Day )
+      const refreshToken = jwt.sign(
+        user.toJSON(),
+        privateKey,
+        { expiresIn: '1d', algorithm: 'RS256' },
+      );
+      return res.status(200).json({ user, token, refreshToken });
     });
     return null;
   })(req, res);
@@ -69,4 +90,6 @@ export {
   logout,
   register,
   hashPassword,
+  googleLogin,
+  googleCallback,
 };

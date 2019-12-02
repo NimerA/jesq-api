@@ -31,7 +31,7 @@ function authorized(req, res, next) {
   })(req, res, next);
 }
 
-server.use('/', auth);
+server.use('/auth', auth);
 server.use('/users', authorized, users);
 
 // Handle errors
